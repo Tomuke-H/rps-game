@@ -12,6 +12,8 @@ const allMessages = [
 
 const RPSGame = () =>{
     const [userChoice, setUserChoice] = useState('')
+    const [userPrevPick, setUserPrevPick] = useState('')
+    const [compPrevPick, setCompPrevPick] = useState('')
     const [wins, setWins] = useState(0)
     const [losses, setLosses] = useState(0)
     const [ties, setTies] = useState(0)
@@ -27,6 +29,7 @@ const RPSGame = () =>{
 
 
     const handleRock = (comp) => {
+        setUserPrevPick('rock')
         if(comp === 'scissors'){
             setWins(wins + 1)
             setMessage(allMessages[1])
@@ -37,6 +40,7 @@ const RPSGame = () =>{
     }
 
     const handleScissors = (comp) => {
+        setUserPrevPick('scissors')
         if(comp === 'paper'){
             setWins(wins + 1)
             setMessage(allMessages[1])
@@ -47,6 +51,7 @@ const RPSGame = () =>{
     }
 
     const handlePaper = (comp) => {
+        setUserPrevPick('paper')
         if(comp === 'rock'){
             setWins(wins + 1)
             setMessage(allMessages[1])
@@ -59,11 +64,14 @@ const RPSGame = () =>{
 
     const runGame = () => {
         let compChoice = choices[Math.floor(Math.random() * 3)]
+        setCompPrevPick(compChoice)
         // let compChoice = 'rock'
         console.log("Comp picked:", compChoice)
         console.log("User picked:", userChoice)
         if(compChoice == userChoice){
             setMessage(allMessages[2])
+            setUserPrevPick(userChoice)
+            setCompPrevPick(compChoice)
             setUserChoice('')
             return setTies(ties + 1)
         }
@@ -100,9 +108,12 @@ const RPSGame = () =>{
                     />
             </div>
             <Card.Group>
-                <Card style={{margin: "30px"}}>
+                <Card color={message == allMessages[0] ? "red" : "green"} style={{margin: "30px"}}>
                     <Card.Content>
                         <h3>{message}</h3>
+                        <Card.Description>
+                            {(totalGames > 0) && `The computer picked ${compPrevPick}, you picked ${userPrevPick}`}
+                        </Card.Description>
                     </Card.Content>
                 </Card>
                 <Card>

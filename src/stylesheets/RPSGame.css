@@ -1,5 +1,6 @@
 .icon:hover{
     cursor: pointer;
+    color: gray;
 }
 
 .game-wrapper {
